@@ -4,6 +4,8 @@
 This originated as a cosplay project to create a life-size (i.e. about the size of a cat) 'animatronix' dragon based on the Terry Pratchett character 
 Vinny aka Lord Mountjoy Quickfang Winterforth IV, who appears in the Discworld volume Guards! Guards!
 
+![discworld dragon](/discworlddragon.png)
+
 The project provisionally incorporates the following features, though not all may make it to the final version:
 
 1. panning and tilting head via standard RC servos.
