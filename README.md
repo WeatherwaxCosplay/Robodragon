@@ -15,6 +15,8 @@ The project provisionally incorporates the following features, though not all ma
 6. various illumination via RGB LEDs.
 7. all the above remotely controllable via XBee-wireless equipped gamepad-style controller, in addition to a pre-programmed autonomous mode.
 
+![robodragon parts](/robodragonparts.png)
+
 ## Current Status
 
 1. Currently still at the design and prototype stage.
