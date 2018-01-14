@@ -19,4 +19,4 @@ The project provisionally incorporates the following features, though not all ma
 1. After some deliberation, the project has settled on Arduino-compatible MCUs in preference to an earlier Raspberry Pi 3 design. The Teensy 3.2 has been selected on the basis of its small form factor, high processor speed and large flash and program memory capacity.
 2. Currently still at the design and prototype stage.
 3. Arduino code libraries developed for the wireless gamepad controller and SPI displays.
-4. Principal issues have been a) working within Teensy 3.2 memory constraints, and b) been getting the SPI displays to be stable in a mobile cosplay context.
+4. Principal issues have been a) working within Teensy 3.2 memory constraints, and b) getting the SPI displays to be stable in a mobile cosplay context.
