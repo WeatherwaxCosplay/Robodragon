@@ -8,7 +8,7 @@ The project provisionally incorporates the following features, though not all ma
 1. panning and tilting head via standard RC servos.
 2. flapping wings via standard RC servos.
 3. articulated mouth and/or tail via standard RC servos.
-3. animated 'moving' and 'blinking eyes' via a pair of 0.95" SPI OLED displays and a sequence of bitmaps images.
+3. animated 'moving' and 'blinking eyes' via a pair of 0.95" SPI OLED displays and a sequence of bitmap images.
 4. smoke generator utilising repurposed aquarium pump motor and electronic vape stick (subject to cosplay event regulations).
 5. 'roaring' and other sounds via internal speaker and audio samples.
 6. various illumination via RGB LEDs.
