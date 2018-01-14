@@ -19,6 +19,8 @@ The project provisionally incorporates the following features, though not all ma
 
 ![robodragon parts](/robodragonparts.png)
 
+![provisional wiring diagram](/wiringdiagram.png)
+
 ## Current Status
 
 1. Currently still at the design and prototype stage.
