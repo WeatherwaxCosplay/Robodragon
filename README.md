@@ -21,6 +21,14 @@ The project provisionally incorporates the following features, though not all ma
 
 ![provisional wiring diagram](/wiringdiagram.png)
 
+## Work in Progress Pictures
+
+![robodragon head wiring matrix 1](/dragonheadwiringmatrix1.jpg)
+
+![robodragon head wiring matrix 2](/dragonheadwiringmatrix2.jpg)
+
+![robodragon head wiring matrix 3](/dragonheadwiringmatrix3.jpg)
+
 ## Current Status
 
 1. Based on Teensy 3.2 or 3.6 MCU, mainly due to processor speed and program memory demands. Also works on Arduino Due but will NOT work on standard Arduino UNO.
