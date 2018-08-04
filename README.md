@@ -1,4 +1,4 @@
-# robodragon
+# Robodragon
 "Animatronix" cosplay dragon project
 
 This originated as a cosplay project to create a life-size (i.e. about the size of a cat) 'animatronix' dragon based on the Terry Pratchett character 
