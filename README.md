@@ -32,6 +32,6 @@ The project provisionally incorporates the following features, though not all ma
 1. Based on Teensy 3.2 or 3.6 MCU, mainly due to processor speed and program memory demands. Also works on Arduino Due but will NOT work on standard Arduino UNO.
 2. Core programming complete for both remote control and stand-alone (pre-programmed) modes.
 3. Arduino code libraries developed for the wireless gamepad controller and SPI displays. These can be found at
-[SEMU_SSD1331](https://github.com/semuconsulting/SEMU_SSD1331.git) and [Gamepad_XBee](https://github.com/semuconsulting/Gamepad_DS4_I2C.git).
+[SEMU_SSD1331](https://github.com/semuconsulting/SEMU_SSD1331.git) and [Gamepad_XBee](https://github.com/semuconsulting/Gamepad_XBee.git).
 4. Mechanical framework for head and wings complete and tested.
 5. Remaining task is to incorporate electronics and mechanics into dragon 'body'.
