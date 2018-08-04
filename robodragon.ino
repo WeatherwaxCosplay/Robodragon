@@ -1,6 +1,6 @@
 /*******************************************************************************************************************************
 
-  Robodragon 5
+  Robodragon
 
   WeatherWax Cosplay / SEMU Consulting - 2018
 
@@ -48,12 +48,11 @@
 
 //#define DEBUG 1
 
-#include <Adafruit_GFX.h>
-#include <SSD1331_SPI_CONTROL.h>
-#include <SPI.h>
+#include <SEMU_SSD1331.h>
 #include <Servo.h>
 #include <Gamepad_XBee.h>
 #include <Adafruit_Soundboard.h>
+#include <colors.h>
 
 #include "_images/deye.h"
 #include "_images/maskl1.h"
@@ -83,9 +82,9 @@ const tImage maskR[4] = {
 };
 
 // set up array of SPI displays - uses hardware SPI pins on Teensy (MOSI 11 SCLK 13)
-SSD1331_SPI_CONTROL displays[] = {
-  SSD1331_SPI_CONTROL(cs, dc, rst),
-  SSD1331_SPI_CONTROL(cs2, dc, rst2)
+SEMU_SSD1331 displays[] = {
+  SEMU_SSD1331(cs, dc, rst),
+  SEMU_SSD1331(cs2, dc, rst2)
 };
 
 Gamepad_XBee gamepad = Gamepad_XBee();
@@ -107,7 +106,7 @@ uint8_t blinkMaskR = 0;
 uint8_t blinkIter = 0;
 char cmd;
 uint16_t flapd = 15;
-bool autoMode = false;
+bool autoMode = true;
 uint32_t autoPeriod;
 bool inMotion = false;
 uint16_t eyex = 512;
@@ -197,8 +196,8 @@ void setEyes(uint16_t x, uint16_t y) {
 
   if (x <= max_delta && y <= max_delta) {
 
-    x = map(x, 0, 1023, TFTWIDTH - 1, 0);
-    y = map(y, 0, 1023, TFTHEIGHT - 1, 0);
+    x = map(x, 0, 1023, displays[LEFT].TFTWIDTH - 1, 0);
+    y = map(y, 0, 1023, displays[LEFT].TFTHEIGHT - 1, 0);
 
     displays[LEFT].drawMaskedSegment(x, y, &deye, &maskL[blinkMaskL]);
     displays[RIGHT].drawMaskedSegment(x, y, &deye, &maskR[blinkMaskR]);
