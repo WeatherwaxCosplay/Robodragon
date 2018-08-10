@@ -45,7 +45,7 @@ alter the look and feel programatically.
 
 ## Gamepad Remote Control Options
 
-A variety of gamepad-style remote control configurations are available, some of which are illustrated below. I have experimented with most of these at various point and 
+A variety of gamepad-style wireless remote control configurations are available, some of which are illustrated below. I have experimented with most of these at various point and 
 have endeavoured to develop (or adapt from existing sources) a [simple, standardised set of Arduino gamepad software libraries](https://github.com/semuconsulting) to 
 allow end users to adopt different configurations more or less interchangeably. See the README files in these libraries for further details.
 
