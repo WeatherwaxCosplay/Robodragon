@@ -49,7 +49,9 @@ A variety of gamepad-style remote control configurations are available, some of 
 have endeavoured to develop (or adapt from existing sources) a [simple, standardised set of Arduino gamepad software libraries](https://github.com/semuconsulting) to 
 allow end users to adopt different configurations more or less interchangeably. See the README files in these libraries for further details.
 
-![ps3](/docs/Configurationps3.png) ![ps4bt](/docs/Configurationps4bt.png) ![dfr](/docs/Configurationdfr.png)
+PS3 USB/XBee --> XBee   | PS3/4 --> Bluetooth    | DFRobot XBee --> XBee
+----------------------- | :--------------------: | :--------------------:
+![ps3](/docs/Configurationps3.png) | ![ps4bt](/docs/Configurationps4bt.png) | ![dfr](/docs/Configurationdfr.png)
 
 ### Standard PS3/PS4 Controller
 Perhaps the most reliable and intuitive option is to use a standard PS3 or PS4 controller (or the XBox equivalent) in conjunction with some form of wireless transceiver - either Bluetooth or 
