@@ -43,7 +43,8 @@ alter the look and feel programatically.
 
 ![Teensy shield 1](/docs/Teensyshield1.jpg) ![Teensy shield 2](/docs/Teensyshield2.jpg)
 
-![Smoke Generator Rig](/docs/smokegenrig.png)
+![Smoke generator rig](/docs/smokegenrig.png)
+![Vape stick adapter](/docs/vapeadapter.png)
 
 ## Gamepad Remote Control Options
 
