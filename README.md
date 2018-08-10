@@ -36,13 +36,9 @@ alter the look and feel programatically. The 'cartoon like' look of the OLED dis
 
 ## Work in Progress Pictures
 
-![robodragon head wiring matrix 2](/dragonheadwiringmatrix2.jpg)
+![robodragon head wiring matrix 2](/dragonheadwiringmatrix2.jpg) ![robodragon head wiring matrix 3](/dragonheadwiringmatrix3.jpg)
 
-![robodragon head wiring matrix 3](/dragonheadwiringmatrix3.jpg)
-
-![teensy shield 1](/teensyshield1.jpg)
-
-![teensy shield 2](/teensyshield2.jpg)
+![Teensy shield 1](/teensyshield1.jpg) ![Teensy shield 2](/teensyshield2.jpg)
 
 ## Gamepad Remote Control Options
 
