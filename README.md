@@ -78,15 +78,32 @@ an early Alpha stage.
 There are third-party PS3/PS4 clones but the build quality often leaves a lot to be desired. Genuine second-hand PS3 controllers in good condition can 
 be found on eBay for around £15 and I'd recommend sticking with the genuine article.
 
-### Third-party Arduino-based Gamepad Controller
+### Third-party or DIY Arduino-based Gamepad Controller
 An alternative option is something like the [DFRobot PS3-style controller](https://www.dfrobot.com/product-858.html) which embeds a programmable Arduino Leonardo-compatible MCU with 
-a slot for an XBee-compatible radio module (either RF or Bluetooth). This has the advantage that you can program the MCU yourself and therefore have complete control over its 
+a slot for an XBee radio module (either RF or Bluetooth). This has the advantage that you can program the transmitting MCU yourself and therefore have complete control over its 
 functionality, and you can select different XBee platforms depending on your wireless needs.
 
 The disadvantages of the DFRobot controller option are a) it uses hobby-grade components and the build quality and control responsiveness are nothing like as good as a genuine 
-PS3/PS4 controller, b) it's not particularly cheap (and may need to be delivered from China, incurring additional import charges) and c) it's not well documented.
+PS3/PS4 controller, b) it's not particularly cheap (around £50 in the UK, but may need to be delivered from China, incurring additional import charges) and c) the documentation is poor.
 
-But if you favour a completely 'open-source' approach, the DFRobot controller is worth considering.
+You could, at a push, build your own equivalent wireless 'gamepad' using components available from most electronic hobby stores:
+ 
+* a couple of [thumb joysticks](http://www.hobbytronics.co.uk/electronic-components/switches-relays/thumb-joystick), and maybe some [breakout boards](http://www.hobbytronics.co.uk/thumb-joystick-breakout) to mount them in
+* around 10-14 [pushbutton switches](http://www.hobbytronics.co.uk/electronic-components/switches-relays/push-switch-12mm)
+* a small-form-factor MCU such as a [Teensy](http://www.hobbytronics.co.uk/arduino/teensy-v32), [MKR Zero](http://www.hobbytronics.co.uk/arduino/arduino-mkr-zero) or 
+[ATmega32U4-based Arduino](http://www.hobbytronics.co.uk/arduino/a-star-32u4-mini)
+* an [XBee wireless module](http://www.hobbytronics.co.uk/wireless/zigbee/xbee-1mw-wire-s1) (Bluetooth modules are also available in the same form factor)
+* an [XBee breakout board or shield](http://www.hobbytronics.co.uk/wireless/zigbee/xbee-explorer-reg)
+* a [regulated 5V battery power supply](http://www.hobbytronics.co.uk/batteries/d24v50f5-5v-step-down-regulator) 
+* the [Gamepad_Dfr software library](https://github.com/semuconsulting/Gamepad_DFRobot) could be used with little or no change.
+
+For a rumble effect, you could add:
+* a couple of [small DC motors](http://www.hobbytronics.co.uk/motor-control/motors-general/motor-gear-3v) with DIY offset weighted cams to serve as rumble controls
+* a small [DC motor driver board](http://www.hobbytronics.co.uk/motor-control/motor-drivers/tb6612fng-driver-board)
+
+You probably wouldn't get much change out of £80, and you would have to construct your own case, but in a Cosplay context you would probably be looking to disguise the controller anyway, so that may open up interesting possibilities.
+
+But if you favour an off-the-shelf 'open-source' approach, the DFRobot controller is worth considering.
 
 #### Serial vs I2C USB Host Adapters
 
