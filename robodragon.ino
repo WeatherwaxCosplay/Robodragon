@@ -5,8 +5,14 @@
   WeatherWax Cosplay / SEMU Consulting - 2018
 
   Control program for robotic dragon head, incorporating
-  - pan and tilt server for 'head', congrolled via left gamepad joystick
+  - pan and tilt servos for 'head', controlled via left gamepad joystick
   - 2 x SSD1331 OLED displays for 'eyes', controlled via right gamepad joystick
+  - various actions can be programmed using other gamepad controls
+
+  NB: if you're planning to use a UART (Serial) XBee or USB Host board together with
+  a UART Sound FX board, you'll need to ensure your MCU has at least two hardware serial ports.
+  Using SoftwareSerial to get round hardware serial port constraints won't necessarily work here 
+  and may cause other library incompatibility issues.  
 
   The image files used for the eyes were created using Vladimir Riuson's excellent lcd-image-convertor utility
   (remember to amend the default image.tmpl template to add a PROGMEM directive at the top of the data array).
@@ -14,45 +20,60 @@
 
   WIRING CONNECTIONS:
 
-  XBee:
+  Receiving XBee or USB Host Board in Serial (rather than I2C) mode:
+  (NB: we're using Serial1 rather than Serial or SerialUSB here)
 
-  TX/DOUT on XBee   --> RX1 on Arduino
-  RX/DIN on XBee    --> TX1 on Arduino
+  XBee or USB Host Board            Slave Arduino/Teensy
+  ----------------------------------------------------------------------------------
+  TX/DOUT on XBee or USB Host       RX1 (pin 19 on the Due (NOT 0), pin 0 on the Teensy 3.x)
+  RX/DIN on XBee or USB Host        TX1 (pin 18 on the Due (NOT 1), pin 1 on the Teensy 3.x)
 
   SSD1331 OLEDs:
 
   NB: Multiple OLED boards should share the same SPI MISO, SCLK, RESET and DC lines but each board must have a separate SPI CS (OC) line.
 
-  GND on both OLED boards (brown wires)     --> GND on Arduino
-  VCC on both OLED boards (red wires)       --> 5V on Arduino
-  SCL on both OLED boards (orange wires)    --> Digital pin 13 (SPI hardware SCLK) on Arduino
-  SDA on both OLED boards (yellow wires)    --> Digital pin 11 (SPI MOSI) on Arduino - this is the chip select pin for the OLED itself
-  RES on both OLED boards (green wires)     --> Digital pin 10 (SPI RESET) on Arduino
-  DC on both OLED boards (blue wires)       --> Digital pin 9 (SPI Data Channel) on Arduino
-  CS on left OLED board (purple wire)       --> Digital pin 8 (SPI Chip Select) on Arduino
-  CS on right OLED board (purple/grey wire) --> Digital pin 7 (SPI Chip Select) on Arduino
+  OLED display                                Slave Arduino/Teensy  
+  -------------------------------------------------------------------------------
+  GND on both OLED boards (brown wires)       GND
+  VCC on both OLED boards (red wires)         5V
+  SCL on both OLED boards (orange wires)      Digital pin 13 (SPI hardware SCLK)
+  SDA on both OLED boards (yellow wires)      Digital pin 11 (SPI hardware MOSI)
+  RES on both OLED boards (green wires)       Digital pin 10 (SPI RESET)
+  DC on both OLED boards (blue wires)         Digital pin 9 (SPI Data Channel)
+  CS on left OLED board (purple wire)         Digital pin 8 (SPI Chip Select)
+  CS on right OLED board (purple/grey wire)   Digital pin 7 (SPI Chip Select)
 
   Adafruit SoundFX Board:
+  (NB: we're using Serial2 here - make sure your MCU has at least 2 hardware UART ports)
 
-  SoundBoard  Arduino
-  -------------------
-  VIN         5V
-  GND         GND
-  UG          GND
-  RST         Pin 4
-  RX          TX2 (Pin 16)
-  TX          RX2 (Pin 17)
-  L           +ve speaker connection
-  GND         -ve speaker connection
+  SoundBoard    Slave Arduino/Teensy
+  -----------------------------------
+  VIN           5V
+  GND           GND
+  UG            GND
+  RST           Digital Pin 4
+  RX            TX2 (pin 16 on Due, pin 10 on Teensy 3.x)
+  TX            RX2 (pin 17 on Due, pin 9 on Teensy 3.x)
+  L             +ve speaker connection
+  GND           -ve speaker connection
 ******************************************************************************************************************************/
 
-//#define DEBUG 1
+#define GAMEPAD_DFR     // use only this for DFRobot controller with XBee transmitter
+//#define GAMEPAD_PS3   // use only this for PS3 controller in USB mode with XBee transmitter
+//#define GAMEPAD_PS4BT // use only this for PS3/4 controller in Bluetooth mode
 
 #include <SEMU_SSD1331.h>
 #include <Servo.h>
-#include <gamepad_dfr.h>
 #include <Adafruit_Soundboard.h>
 #include <colors.h>
+
+#if defined GAMEPAD_DFR
+#include <gamepad_dfr.h>
+#elif defined GAMEPAD_PS3
+#include <gamepad_ps3.h>
+#elif defined GAMEPAD_PS4BT
+#include <gamepad_ps4bt.h>
+#endif
 
 #include "_images/deye.h"
 #include "_images/maskl1.h"
@@ -62,7 +83,6 @@
 #include "_images/mask3.h"
 #include "_images/mask4.h"
 
-#define TX_ADDRESS  0x0000 // set to the gamepad XBee's MY address
 #define sclk 13   // marked SCL on board
 #define mosi 11   // marked SDA on board
 #define rst  10   // marked RES on board
@@ -84,10 +104,17 @@ const tImage maskR[4] = {
 // set up array of SPI displays - uses hardware SPI pins on Teensy (MOSI 11 SCLK 13)
 SEMU_SSD1331 displays[] = {
   SEMU_SSD1331(cs, dc, rst),
-//  SEMU_SSD1331(cs2, dc, rst2)
+  SEMU_SSD1331(cs2, dc, rst2)
 };
 
+#if defined GAMEPAD_DFR
 Gamepad_Dfr gamepad = Gamepad_Dfr();
+#elif defined GAMEPAD_PS3
+Gamepad_PS3 gamepad = Gamepad_PS3();
+#elif defined GAMEPAD_PS4BT
+Gamepad_PS4BT gamepad = Gamepad_PS4BT();
+#endif
+
 //Adafruit_Soundboard sfx = Adafruit_Soundboard(&Serial2, NULL, SFX_RST);
 
 Servo xservo;
@@ -149,13 +176,13 @@ void loop() {
 
   blinkTimer(); // refresh blink timer
 
-  // Pushing L1 and Start button simultaneously puts dragon into autonomous mode
-  // Pushing L1 and Select button simultaneously puts dragon into manual (remote control) mode
-  if (gamepad.button_l1 && gamepad.button_select && autoMode) {
+  // Pushing L1 and UP button simultaneously puts dragon into autonomous mode
+  // Pushing L1 and DOWN button simultaneously puts dragon into manual (remote control) mode
+  if (gamepad.button_l1 && gamepad.button_up && autoMode) {
     autoMode = false;
     displayMsg("AUTO OFF", RED);
   }
-  if (gamepad.button_l1 && gamepad.button_start && !autoMode) {
+  if (gamepad.button_l1 && gamepad.button_down && !autoMode) {
     autoMode = true;
     displayMsg("AUTO ON", GREEN);
   }
@@ -184,8 +211,6 @@ void loop() {
 
   }
 
-
-
 }
 
 //**************************************************************************
@@ -200,7 +225,7 @@ void setEyes(uint16_t x, uint16_t y) {
     y = map(y, 0, CTL_MAX, displays[LEFT].TFTHEIGHT - 1, 0);
 
     displays[LEFT].drawMaskedSegment(x, y, &deye, &maskL[blinkMaskL]);
-    //displays[RIGHT].drawMaskedSegment(x, y, &deye, &maskR[blinkMaskR]);
+    displays[RIGHT].drawMaskedSegment(x, y, &deye, &maskR[blinkMaskR]);
 
   }
 
@@ -315,8 +340,8 @@ void setWings () {
 //**************************************************************************
 void blinkTimer () {
 
-  // right joystick button press causes eyes to immediately glare.
-  if (gamepad.button_rj) {
+  // pressing LEFT button press causes eyes to immediately 'glare'
+  if (gamepad.button_left) {
     blinkMaskL = 2;
     blinkMaskR = 2;
     blinkIter = 4;

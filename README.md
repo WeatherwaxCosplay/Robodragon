@@ -70,7 +70,7 @@ though this does increase the parts count and cost and is a little more cumberso
 Bluetooth support is improving in the Arduino hobbyist community.
 
 Another disadvantage with the PS3/PS4 option is that these are proprietary platforms and you are generally reliant on closed-source, reverse-engineered 
-USB software libraries to interpret the PS3/PS4 output. On some hobbyist platforms, the software is only available in compiled binary (hex) format - you can't actually see or debug the source code. 
+USB software libraries to interpret the PS3/PS4 output. 
 There is an active [open-source project](https://github.com/felis/UHS30) working on opening up such USB protocols, and also allowing the use of native USB ports provided by some 
 of the more capable Arduino platforms (such as the Due or Teensy) - obviating the need to use an external USB Host adapter or shield - but at time of writing this was still at 
 an early Alpha stage.
