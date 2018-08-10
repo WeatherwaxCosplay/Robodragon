@@ -6,6 +6,8 @@ Vinny aka Lord Mountjoy Quickfang Winterforth IV, who appears in the Discworld v
 
 ![discworld dragon](/discworlddragon.png)
 
+## Provisional functionality and wiring diagram
+
 The project provisionally incorporates the following features, though not all may make it to the final version:
 
 1. Panning and tilting head via standard RC servos.
@@ -22,17 +24,18 @@ smoke effects normally prohibited in the general auditorium).
 
 ## Current Status
 
-1. Favouring the 32-bit Teensy 3.x microcontroller (MCU), mainly due to small form factor and excellent processor speed and program memory capacity. 
-The main downside to the Teensy platform is that the header pins have to be soldered by the end user, which is not a task for the faint-hearted. 
+1. Currently favouring the 32-bit Teensy 3.x microcontroller (MCU), mainly due to small form factor and excellent processor speed and program memory capacity. 
+One downside to the Teensy platform is that the header pins have to be soldered by the end user, which is probably not a task for a soldering novice. 
 If the soldering is daunting, the code also works on most 32-bit Arduino platforms such as the Due or Zero, but a standard 8-bit Arduino UNO does have have enough grunt or memory to 
-support all planned functionality.
+support all planned functionality. There are also minor differences between the Teensy software libraries and some of the standard Arduino (Adafruit) libraries, but I have not found these to 
+be a problem in practice.
 2. Key challenge has been getting the OLED displays to work reliably as part of a moving assembly. The SPI protocols used by these displays are only intended for transmission 
 over very short and rigid tracks (typically a few cm at most), so this project is approaching the limit of what is practically feasible using SPI devices. [Electro-mechanical 
 animatronic eyes](https://www.pinterest.co.uk/pin/562035228467357323/) were considered, but these would have made the head unfeasibly large and you lose the ability to 
-alter the look and feel programatically. The 'cartoon like' look of the OLED displays seemed appropriate for the Vinny character.
+alter the look and feel programatically.
 3. Arduino code libraries developed for the SPI displays and a variety of wireless gamepad controllers. These can be found at https://github.com/semuconsulting/
-4. Mechanical framework for head and wings complete and tested.
-5. Remaining task is to incorporate electro-mechanics into a convincing dragon 'body' and make the whole thing robust and reliable enough for the rigours of cosplay.
+4. Mechanical jig for head and wings complete and tested.
+5. Remaining task is to incorporate the electro-mechanics into a convincing dragon 'body' and make the whole thing robust and reliable enough for the rigours of cosplay.
 
 ## Work in Progress Pictures
 
@@ -50,13 +53,14 @@ to adopt different hardware platforms more or less interchangeably. See the READ
 Perhaps the most reliable and intuitive option is to use a standard PS3 or PS4 controller (or the XBox equivalent) in conjunction with some form of wireless transceiver - either Bluetooth or 
 a longer range RF system like [XBee](https://en.wikipedia.org/wiki/XBee). Using Bluetooth reduces the overall parts count and cost, as both PS3 and PS4 
 controllers already incorporate Bluetooth transmitters. The key disadvantages of Bluetooth are a) limited range, and b) the need to 'pair' the controller 
-with the Bluetooth receiver, which can be unreliable in an Arduino hardware context. 
+with the Bluetooth receiver and retain this pairing after powering down, which can be problematic in an Arduino hardware context. 
 
 If Bluetooth proves unreliable, it is also possible to use a PS3 controller connected via a physical USB cable to a [portable USB Host adapter and XBee transmitter](http://www.hobbytronics.co.uk/usb-host-xbee-shield), 
-though this does increase the parts count and cost and is a little more cumbersome to carry around. I've personally found this to be the most reliable option.
+though this does increase the parts count and cost and is a little more cumbersome to carry around. I've personally found this to be a more reliable option in the past, though 
+Bluetooth support is improving in the Arduino hobbyist community.
 
 Another disadvantage with the PS3/PS4 option is that these are proprietary platforms and you are generally reliant on closed-source, reverse-engineered 
-USB software libraries to interpret the PS3/PS4 output. On some hobbyist platforms, the software is only available in compiled binary (hex) format - you can't actually see or debug the code. 
+USB software libraries to interpret the PS3/PS4 output. On some hobbyist platforms, the software is only available in compiled binary (hex) format - you can't actually see or debug the source code. 
 There is an active [open-source project](https://github.com/felis/UHS30) working on opening up such USB protocols, and also allowing the use of native USB ports provided by some 
 of the more capable Arduino platforms (such as the Due or Teensy) - obviating the need to use an external USB Host adapter or shield - but at time of writing this was still at 
 an early Alpha stage.
@@ -76,7 +80,7 @@ But if you favour a completely 'open-source' approach, the DFRobot controller is
 
 #### Serial vs I2C USB Host Adapters
 
-The USB Host adapters available in this context generally support two connection protocols:
+The USB Host adapters or shields available for this kind of application generally support two connection protocols:
  
 1) UART ('serial'), which uses the Arduino's hardware UART (TX/RX) ports (e.g. pins D0 & D1 on a UNO) and the standard Serial library.
 2) I2C ('two-wire') which uses the Arduino's hardware SDA and SCL ports (e.g. pins A4 & A5 on a UNO) and the Wire library.
@@ -84,4 +88,4 @@ The USB Host adapters available in this context generally support two connection
 There are pros and cons to both options. UART is arguably the easier to use and debug, but if you want to use more than one UART device (e.g. the Robodragon project is also intending to use a 
 UART Sound FX board) you may be restricted by the number of hardware UART ports available on your Arduino MCU platform (though this can be partially mitigated by the use of SoftwareSerial libraries).
 I2C can in theory support multiple devices over the same ports - each simply needs to be assigned a unique I2C address in software. In practice, there are are occasionally 
-hardware or other incompatibilities between different I2C-equipped devices and it may be necessary to experiment (e.g. with different values of pull-up resistor) to resolve these.
+hardware or other incompatibilities between different types of I2C-equipped device and it may be necessary to experiment (e.g. with different values of pull-up resistor) to resolve these.
