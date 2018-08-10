@@ -4,7 +4,7 @@
 This originated as a cosplay project to create a life-size (i.e. about the size of a cat) 'animatronix' dragon based on the Terry Pratchett character 
 Vinny aka Lord Mountjoy Quickfang Winterforth IV, who appears in the Discworld volume Guards! Guards!
 
-![discworld dragon](/discworlddragon.png)
+![discworld dragon](/docs/discworlddragon.png)
 
 ## Provisional functionality and wiring diagram
 
@@ -20,7 +20,7 @@ The project provisionally incorporates the following features, though not all ma
 smoke effects normally prohibited in the general auditorium).
 8. All the above remotely controllable via a gamepad-style controller, in addition to a pre-programmed autonomous mode.
 
-![provisional wiring diagram](/wiringdiagram.png)
+![provisional wiring diagram](/docs/wiringdiagram.png)
 
 ## Current Status
 
@@ -39,15 +39,17 @@ alter the look and feel programatically.
 
 ## Work in Progress Pictures
 
-![robodragon head wiring matrix 2](/dragonheadwiringmatrix2.jpg) ![robodragon head wiring matrix 3](/dragonheadwiringmatrix3.jpg)
+![robodragon head wiring matrix 2](/docs/dragonheadwiringmatrix2.jpg) ![robodragon head wiring matrix 3](/docs/dragonheadwiringmatrix3.jpg)
 
-![Teensy shield 1](/Teensyshield1.jpg) ![Teensy shield 2](/Teensyshield2.jpg)
+![Teensy shield 1](/docs/Teensyshield1.jpg) ![Teensy shield 2](/docs/Teensyshield2.jpg)
 
 ## Gamepad Remote Control Options
 
-A variety of gamepad-style remote control options are available. I have experimented with most of these at various point and have endeavoured to develop (or 
-adapt from existing sources) a [simple, standardised set of Arduino gamepad software libraries](https://github.com/semuconsulting) to allow end users 
-to adopt different hardware platforms more or less interchangeably. See the README files in these libraries for further details.
+A variety of gamepad-style remote control configurations are available, some of which are illustrated below. I have experimented with most of these at various point and 
+have endeavoured to develop (or adapt from existing sources) a [simple, standardised set of Arduino gamepad software libraries](https://github.com/semuconsulting) to 
+allow end users to adopt different configurations more or less interchangeably. See the README files in these libraries for further details.
+
+![ps3](/docs/Configurationps3.jpg) ![ps4bt](/docs/Configurationps4bt.jpg) ![dfr](/docs/Configurationdfr.jpg)
 
 ### Standard PS3/PS4 Controller
 Perhaps the most reliable and intuitive option is to use a standard PS3 or PS4 controller (or the XBox equivalent) in conjunction with some form of wireless transceiver - either Bluetooth or 
