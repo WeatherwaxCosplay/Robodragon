@@ -26,8 +26,8 @@ smoke effects normally prohibited in the general auditorium).
 
 1. Currently favouring the 32-bit Teensy 3.x microcontroller (MCU), mainly due to small form factor and excellent processor speed and program memory capacity. 
 One downside to the Teensy platform is that the header pins have to be soldered by the end user, which is probably not a task for a soldering novice. 
-If the soldering is daunting, the code also works on most 32-bit Arduino platforms such as the Due or Zero, but a standard 8-bit Arduino UNO does have have enough grunt or memory to 
-support all planned functionality. There are also minor differences between the Teensy software libraries and some of the standard Arduino (Adafruit) libraries, but I have not found these to 
+If the soldering is daunting, the code also works on most 32-bit Arduino platforms such as the Due or Zero, but a standard 8-bit Arduino UNO doesn't have have enough grunt or memory to 
+support all planned functionality. There are minor differences between the Teensy software libraries and some of the standard Arduino (Adafruit) libraries, but I have not found these to 
 be a problem in practice.
 2. Key challenge has been getting the OLED displays to work reliably as part of a moving assembly. The SPI protocols used by these displays are only intended for transmission 
 over very short and rigid tracks (typically a few cm at most), so this project is approaching the limit of what is practically feasible using SPI devices. [Electro-mechanical 
@@ -42,6 +42,8 @@ alter the look and feel programatically.
 ![robodragon head wiring matrix 2](/docs/dragonheadwiringmatrix2.jpg) ![robodragon head wiring matrix 3](/docs/dragonheadwiringmatrix3.jpg)
 
 ![Teensy shield 1](/docs/Teensyshield1.jpg) ![Teensy shield 2](/docs/Teensyshield2.jpg)
+
+![Smoke Generator Rig](/docs/smokegenrig.png)
 
 ## Gamepad Remote Control Options
 
