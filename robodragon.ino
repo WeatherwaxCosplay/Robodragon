@@ -50,7 +50,7 @@
 
 #include <SEMU_SSD1331.h>
 #include <Servo.h>
-#include <Gamepad_XBee.h>
+#include <gamepad_dfr.h>
 #include <Adafruit_Soundboard.h>
 #include <colors.h>
 
@@ -84,10 +84,10 @@ const tImage maskR[4] = {
 // set up array of SPI displays - uses hardware SPI pins on Teensy (MOSI 11 SCLK 13)
 SEMU_SSD1331 displays[] = {
   SEMU_SSD1331(cs, dc, rst),
-  SEMU_SSD1331(cs2, dc, rst2)
+//  SEMU_SSD1331(cs2, dc, rst2)
 };
 
-Gamepad_XBee gamepad = Gamepad_XBee();
+Gamepad_Dfr gamepad = Gamepad_Dfr();
 //Adafruit_Soundboard sfx = Adafruit_Soundboard(&Serial2, NULL, SFX_RST);
 
 Servo xservo;
@@ -106,7 +106,7 @@ uint8_t blinkMaskR = 0;
 uint8_t blinkIter = 0;
 char cmd;
 uint16_t flapd = 15;
-bool autoMode = true;
+bool autoMode = false;
 uint32_t autoPeriod;
 bool inMotion = false;
 uint16_t eyex = 512;
@@ -123,11 +123,11 @@ bool autoFlap = false;
 void setup(void) {
 
   displays[LEFT].begin();
-  displays[RIGHT].begin();
+  //displays[RIGHT].begin();
 
   Serial1.begin(57600); // XBee
   //Serial2.begin(9600);  // SoundFX Board
-  gamepad.beginRX(Serial1, TX_ADDRESS);
+  gamepad.beginRX(Serial1);
 
   xservo.attach(2);
   yservo.attach(3);
@@ -143,48 +143,48 @@ void setup(void) {
 //**************************************************************************
 void loop() {
 
-  if (gamepad.receiveData() == RX_OK) {
+  gamepad.get_data();
 
-    t0 = millis(); // remember loop start time
+  t0 = millis(); // remember loop start time
 
-    blinkTimer(); // refresh blink timer
+  blinkTimer(); // refresh blink timer
 
-    // Pushing L1 and Start button simultaneously puts dragon into autonomous mode
-    // Pushing L1 and Select button simultaneously puts dragon into manual (remote control) mode
-    if (gamepad.Button_L1 && gamepad.Button_Select && autoMode) {
-      autoMode = false;
-      displayMsg("AUTO OFF", RED);
-    }
-    if (gamepad.Button_L1 && gamepad.Button_Start && !autoMode) {
-      autoMode = true;
-      displayMsg("AUTO ON", GREEN);
-    }
+  // Pushing L1 and Start button simultaneously puts dragon into autonomous mode
+  // Pushing L1 and Select button simultaneously puts dragon into manual (remote control) mode
+  if (gamepad.button_l1 && gamepad.button_select && autoMode) {
+    autoMode = false;
+    displayMsg("AUTO OFF", RED);
+  }
+  if (gamepad.button_l1 && gamepad.button_start && !autoMode) {
+    autoMode = true;
+    displayMsg("AUTO ON", GREEN);
+  }
 
-    if (autoMode) {
+  if (autoMode) {
 
-      autoTimer(); // refresh auto timer
+    autoTimer(); // refresh auto timer
 
-      setEyes (eyex, eyey);
-      setHead (headx, heady);
-      if (autoFlap) {
-        setWings ();
-      }
-
-    }
-    else {
-
-      setEyes (gamepad.RightJoystick_X, gamepad.RightJoystick_Y);
-      setHead (gamepad.LeftJoystick_X, gamepad.LeftJoystick_Y);
-      if (gamepad.Button_R2) {
-        setWings ();
-      }
-      //setSound ();
-
-      while (t0 > millis() - POLL_INTERVAL) {} // wait until polling interval expires
-
+    setEyes (eyex, eyey);
+    setHead (headx, heady);
+    if (autoFlap) {
+      setWings ();
     }
 
   }
+  else {
+
+    setEyes (gamepad.r_joystick_x, gamepad.r_joystick_y);
+    setHead (gamepad.l_joystick_x, gamepad.l_joystick_y);
+    if (gamepad.button_r2) {
+      setWings ();
+    }
+    //setSound ();
+
+    while (t0 > millis() - POLL_INTERVAL) {} // wait until polling interval expires
+
+  }
+
+
 
 }
 
@@ -196,11 +196,11 @@ void setEyes(uint16_t x, uint16_t y) {
 
   if (x <= max_delta && y <= max_delta) {
 
-    x = map(x, 0, 1023, displays[LEFT].TFTWIDTH - 1, 0);
-    y = map(y, 0, 1023, displays[LEFT].TFTHEIGHT - 1, 0);
+    x = map(x, 0, CTL_MAX, displays[LEFT].TFTWIDTH - 1, 0);
+    y = map(y, 0, CTL_MAX, displays[LEFT].TFTHEIGHT - 1, 0);
 
     displays[LEFT].drawMaskedSegment(x, y, &deye, &maskL[blinkMaskL]);
-    displays[RIGHT].drawMaskedSegment(x, y, &deye, &maskR[blinkMaskR]);
+    //displays[RIGHT].drawMaskedSegment(x, y, &deye, &maskR[blinkMaskR]);
 
   }
 
@@ -215,13 +215,13 @@ void setHead (uint16_t x, uint16_t y) {
 
     if (abs(lastx - x) > min_delta) {
       lastx = x;
-      x = map(x, 0, 1023, 160, 20);
+      x = map(x, 0, CTL_MAX, 160, 20);
       xservo.write(x);
     }
 
     if (abs(lasty - y) > min_delta) {
       lasty = y;
-      y = map(y, 0, 1023, 25, 100);
+      y = map(y, 0, CTL_MAX, 25, 100);
       yservo.write(y);
     }
 
@@ -316,7 +316,7 @@ void setWings () {
 void blinkTimer () {
 
   // right joystick button press causes eyes to immediately glare.
-  if (gamepad.RightJoystick_B) {
+  if (gamepad.button_rj) {
     blinkMaskL = 2;
     blinkMaskR = 2;
     blinkIter = 4;
