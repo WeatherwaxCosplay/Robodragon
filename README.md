@@ -39,11 +39,15 @@ alter the look and feel programatically.
 
 ## Work in Progress Pictures
 
-![robodragon head wiring matrix 2](/docs/dragonheadwiringmatrix2.jpg) ![robodragon head wiring matrix 3](/docs/dragonheadwiringmatrix3.jpg)
+Head wiring matrix rear                               | Head wiring matrix front                           
+:-------------------------------------------------:   | :-----------------------:
+![wiring matrix 2](/docs/dragonheadwiringmatrix2.jpg) | ![wiring matrix 3](/docs/dragonheadwiringmatrix3.jpg)
+**Teensy robotics shield \***                         | **Teensy robotics shield**
+![Teensy shield 1](/docs/Teensyshield1.jpg)           | ![Teensy shield 2](/docs/Teensyshield2.jpg)
+**Smoke generator rig**                               | **Vape stick adapter**
+![Smoke Generator Rig](/docs/smokegenrig.png)         | ![Vape stick adapter](/docs/vapeadapter.png) 
 
-![Teensy shield 1](/docs/Teensyshield1.jpg) ![Teensy shield 2](/docs/Teensyshield2.jpg)
-
-![Smoke Generator Rig](/docs/smokegenrig.png)
+\* The compact [Hobbytronics Teensy robotics shield](http://hobbytronics.co.uk/teensy-boards/teensy-robot-controller) originally adapted for this prototype (by repurposing some of the PWM servo headers as an SPI interface) is sadly no longer available. There are other off-the-shelf alternatives, such as this [DFRobot IO expansion shield](https://www.dfrobot.com/product-1009.html) (which can be used with an Arduino Due), but they're generally tied to a standard Arduino UNO form factor and pinout.
 
 ## Gamepad Remote Control Options
 
