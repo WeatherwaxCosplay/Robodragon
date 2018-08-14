@@ -11,8 +11,8 @@
 
   NB: if you're planning to use a UART (Serial) XBee or USB Host board together with
   a UART Sound FX board, you'll need to ensure your MCU has at least two hardware serial ports.
-  Using SoftwareSerial to get round hardware serial port constraints won't necessarily work here 
-  and may cause other library incompatibility issues.  
+  Using SoftwareSerial to get round hardware serial port constraints won't necessarily work here
+  and may cause other library incompatibility issues.
 
   The image files used for the eyes were created using Vladimir Riuson's excellent lcd-image-convertor utility
   (remember to amend the default image.tmpl template to add a PROGMEM directive at the top of the data array).
@@ -32,7 +32,7 @@
 
   NB: Multiple OLED boards should share the same SPI MISO, SCLK, RESET and DC lines but each board must have a separate SPI CS (OC) line.
 
-  OLED display                                Slave Arduino/Teensy  
+  OLED display                                Slave Arduino/Teensy
   -------------------------------------------------------------------------------
   GND on both OLED boards (brown wires)       GND
   VCC on both OLED boards (red wires)         5V
@@ -58,9 +58,9 @@
   GND           -ve speaker connection
 ******************************************************************************************************************************/
 
-#define GAMEPAD_DFR     // use only this for DFRobot controller with XBee transmitter
+//#define GAMEPAD_DFR     // use only this for DFRobot controller with XBee transmitter
 //#define GAMEPAD_PS3   // use only this for PS3 controller in USB mode with XBee transmitter
-//#define GAMEPAD_PS4BT // use only this for PS3/4 controller in Bluetooth mode
+#define GAMEPAD_PS4BT // use only this for PS3/4 controller in Bluetooth mode
 
 #include <SEMU_SSD1331.h>
 #include <Servo.h>
@@ -104,7 +104,7 @@ const tImage maskR[4] = {
 // set up array of SPI displays - uses hardware SPI pins on Teensy (MOSI 11 SCLK 13)
 SEMU_SSD1331 displays[] = {
   SEMU_SSD1331(cs, dc, rst),
-  SEMU_SSD1331(cs2, dc, rst2)
+  //SEMU_SSD1331(cs2, dc, rst2)
 };
 
 #if defined GAMEPAD_DFR
@@ -170,9 +170,9 @@ void setup(void) {
 //**************************************************************************
 void loop() {
 
-  gamepad.get_data();
-
   t0 = millis(); // remember loop start time
+  
+  gamepad.get_data();
 
   blinkTimer(); // refresh blink timer
 
@@ -225,7 +225,7 @@ void setEyes(uint16_t x, uint16_t y) {
     y = map(y, 0, CTL_MAX, displays[LEFT].TFTHEIGHT - 1, 0);
 
     displays[LEFT].drawMaskedSegment(x, y, &deye, &maskL[blinkMaskL]);
-    displays[RIGHT].drawMaskedSegment(x, y, &deye, &maskR[blinkMaskR]);
+    //displays[RIGHT].drawMaskedSegment(x, y, &deye, &maskR[blinkMaskR]);
 
   }
 
