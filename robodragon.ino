@@ -104,7 +104,7 @@ const tImage maskR[4] = {
 // set up array of SPI displays - uses hardware SPI pins on Teensy (MOSI 11 SCLK 13)
 SEMU_SSD1331 displays[] = {
   SEMU_SSD1331(cs, dc, rst),
-  //SEMU_SSD1331(cs2, dc, rst2)
+  SEMU_SSD1331(cs2, dc, rst2)
 };
 
 #if defined GAMEPAD_DFR
@@ -136,10 +136,10 @@ uint16_t flapd = 15;
 bool autoMode = false;
 uint32_t autoPeriod;
 bool inMotion = false;
-uint16_t eyex = 512;
-uint16_t eyey = 512;
-uint16_t headx = 512;
-uint16_t heady = 512;
+uint16_t eyex = CTL_MAX / 2;
+uint16_t eyey = CTL_MAX / 2;
+uint16_t headx = CTL_MAX / 2;
+uint16_t heady = CTL_MAX / 2;
 uint16_t targetx;
 uint16_t targety;
 bool autoFlap = false;
@@ -150,7 +150,7 @@ bool autoFlap = false;
 void setup(void) {
 
   displays[LEFT].begin();
-  //displays[RIGHT].begin();
+  displays[RIGHT].begin();
 
   Serial1.begin(57600); // XBee
   //Serial2.begin(9600);  // SoundFX Board
@@ -171,7 +171,7 @@ void setup(void) {
 void loop() {
 
   t0 = millis(); // remember loop start time
-  
+
   gamepad.get_data();
 
   blinkTimer(); // refresh blink timer
@@ -207,9 +207,9 @@ void loop() {
     }
     //setSound ();
 
-    while (t0 > millis() - POLL_INTERVAL) {} // wait until polling interval expires
-
   }
+
+  while (t0 > millis() - POLL_INTERVAL) {} // wait until polling interval expires
 
 }
 
@@ -225,7 +225,7 @@ void setEyes(uint16_t x, uint16_t y) {
     y = map(y, 0, CTL_MAX, displays[LEFT].TFTHEIGHT - 1, 0);
 
     displays[LEFT].drawMaskedSegment(x, y, &deye, &maskL[blinkMaskL]);
-    //displays[RIGHT].drawMaskedSegment(x, y, &deye, &maskR[blinkMaskR]);
+    displays[RIGHT].drawMaskedSegment(x, y, &deye, &maskR[blinkMaskR]);
 
   }
 
@@ -407,8 +407,8 @@ void autoTimer () {
       case false:
         autoPeriod = millis() + random(2000, 5000);
         inMotion = true;
-        targetx = random(200, 823);
-        targety = random(200, 823);
+        targetx = random(CTL_MAX / 5, CTL_MAX * 4 / 5);
+        targety = random(CTL_MAX / 5, CTL_MAX * 4 / 5);
         autoFlap = false;
         if (random(1, 5) == 1) {
           autoFlap = true;
@@ -439,13 +439,18 @@ void autoTimer () {
 
 void displayMsg(String s, uint16_t c) {
 
-  for (uint8_t i = 0; i < 2; i++) {
+  uint8_t i;
+
+  for (i = 0; i < 2; i++) {
     displays[i].fillScreen(BLACK);
     displays[i].setCursor(0, 30);
     displays[i].setTextColor(c);
     displays[i].setTextSize(2);
     displays[i].println(s);
-    //displays[i].fillScreen(BLACK);
+  }
+  delay(1500);
+  for (i = 0; i < 2; i++) {
+    displays[i].fillScreen(BLACK);
   }
 }
 
